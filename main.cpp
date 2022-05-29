@@ -5,6 +5,10 @@
 
 void randomizeHeights();
 void sort();
+void generateBars();
+void redCycle();
+
+bool isSorted();
 
 const int WIDTH = 1000;
 const int HEIGHT = 800;
@@ -50,16 +54,21 @@ class Bar{
 
 };
 
-const int numberOfBars = 100;
+int numberOfBars = 100;
+const int maxBars = 1000;
 
-Bar bars[numberOfBars];
+Bar bars[maxBars];
 bool sorting = false;
 bool reversed = false;
+
+bool sorted =false;
 
 sf::Clock timer;
 
 int main()
 {
+
+    int currentInd = 0;
     sf::Image icon;
     if(!icon.loadFromFile("icon.png")){
         std::cout << "Error loading Icon" << std::endl;
@@ -72,17 +81,7 @@ int main()
         std::cout << "Couldn't load font" << std::endl;
     }
 
-    //genererate bars with random heights and constant width across the screen
-    for (size_t i = 0; i < numberOfBars; i++)
-    {
-        int width = (WIDTH/numberOfBars)-1;
-        int height = rand() % (HEIGHT-70) + 20;
-        int x = (WIDTH/numberOfBars)*i;
-        int y = HEIGHT - height;
-        Bar n(x,y,width,height);
-        bars[i] = n;
-    }
-    
+    generateBars();
 
     while (window.isOpen())
     {
@@ -95,17 +94,32 @@ int main()
             if(sf::Keyboard::isKeyPressed(sf::Keyboard::Space)){//initialize sorting algorithm
             if(!sorting){
                 sorting = true;
-                sort();
+                currentInd = 0;
             }
             }else if(sf::Keyboard::isKeyPressed(sf::Keyboard::R)){
                 if(!sorting){
                 randomizeHeights();
+                sorted= false;
                 }
             }else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left)){
                 reversed = true;
             }else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Right)){
                 reversed = false;
+            }else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Up)){
+               if(numberOfBars < maxBars && !sorting){
+                numberOfBars += 50;
+                sorted= false;
+                randomizeHeights();
             }
+            }
+            else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Down)){
+               if(numberOfBars > 50 && !sorting){
+                numberOfBars -= 50;
+                randomizeHeights();
+               }
+            }else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))window.close();
+//add up and down controls for the user to increase the amount of bars by 50
+
         }
 
         window.clear();
@@ -114,6 +128,7 @@ int main()
     sf::Text instructions;
     sf::Text directionText;
     sf::Text direction;
+    sf::Text barCount;
 
     instructions.setFont(font);
     instructions.setPosition(sf::Vector2f(10,10));
@@ -139,14 +154,117 @@ int main()
     direction.setCharacterSize(25);
     window.draw(direction);
 
+    barCount.setFont(font);
+    barCount.setPosition(WIDTH-200,10);
+    barCount.setString("Bar Count:" + std::to_string(numberOfBars));
+    barCount.setFillColor(sf::Color::Magenta);
+    barCount.setCharacterSize(30);
+    window.draw(barCount);
+
     for (size_t i = 0; i < numberOfBars; i++)
     {
        window.draw(bars[i].render());
     }
+    
+        int lowInd = currentInd;    
+        if(sorting){
+            
+                bars[currentInd].color = sf::Color::Red;
+            for (size_t i = currentInd + 1; i < numberOfBars; i++)
+            {
+                //bars[i-1].color = sf::Color::White;
+                //bars[i].color = sf::Color::Red;
+                if(!reversed){
+                if(bars[lowInd].getHeight() > bars[i].getHeight()){
+                    lowInd = i;
+                }
+            }else {
+                if(bars[lowInd].getHeight() < bars[i].getHeight()){
+                    lowInd = i;
+                }
+            }
+            }
+            int tempHeight = bars[currentInd].getHeight();
+        bars[currentInd].setHeight(bars[lowInd].getHeight());
+        bars[lowInd].setHeight(tempHeight);
+        currentInd++;
+        // if(isSorted()){
+        //     sorting = false;
+        //     currentInd = 0;
+        //     lowInd = currentInd;
+        // }
+        if(currentInd == numberOfBars+1){
+            currentInd = 0;
+            sorting = false;
+            sorted = true;
+            lowInd = currentInd;
+        }
+        }
+        
+        //if(isSorted()){
+        if(sorted){
+            bars[currentInd].color = sf::Color::Green;
+            currentInd++;
+        }
+
         window.display();
     }
 
     return 0;
+}
+
+
+bool isSorted(){
+    for (size_t i = 0; i < numberOfBars-1; i++)
+     {
+       if(!reversed){
+        if(bars[i].getHeight() > bars[i+1].getHeight()){
+            return false;
+        }
+     }else{
+        if(bars[i].getHeight() < bars[i+1].getHeight()){
+            return false;
+        } 
+     }
+    }
+    return true;
+}
+
+void generateBars(){
+    for (size_t i = 0; i < numberOfBars; i++)
+    {
+        //create an offset of WIDTH - (width * number of bars) then add this to the x
+        int width = (WIDTH/numberOfBars)-1;
+        int height = rand() % HEIGHT + 20;
+
+        int offset = WIDTH - (width * numberOfBars);
+        int x = (WIDTH/numberOfBars)*i;
+        int y = HEIGHT - height;
+        Bar n(x,y,width,height);
+        bars[i] = n;
+    }
+}
+
+void randomizeHeights(){
+    for (size_t i = 0; i < numberOfBars; i++)
+    {
+        //calculate offset of a block only when the WIDTH % numberofbar != 0
+        //width of bar has to be full integer or it will have black bars on the side of the screen
+
+
+       bars[i].x = (WIDTH/numberOfBars)*i+ 1;
+       bars[i].setHeight(rand() % HEIGHT + 20);
+       bars[i].color = sf::Color::White;
+    bars[i].width = (WIDTH/numberOfBars)-1;
+
+    if(WIDTH % numberOfBars != 0){//non integer bar widths       
+    bars[i].width = (WIDTH/numberOfBars);
+
+    int offset = ((WIDTH - (bars[i].width*numberOfBars))/numberOfBars) + 1;
+    bars[i].x = (WIDTH/numberOfBars)*i + offset;
+    }   
+ }
+    
 }
 
 void sort(){
@@ -183,14 +301,13 @@ void sort(){
     sorting = false;
     for (size_t i = 0; i < numberOfBars; i++) bars[i].color = sf::Color::Green;
 
-    
+    redCycle();
 }
 
-void randomizeHeights(){
+void redCycle(){
     for (size_t i = 0; i < numberOfBars; i++)
     {
-       bars[i].setHeight(rand() % (HEIGHT-70) + 20);
-       bars[i].color = sf::Color::White;
+        bars[i].color = sf::Color::Red;
     }
     
 }
