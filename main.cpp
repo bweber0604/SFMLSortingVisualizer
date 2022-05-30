@@ -2,7 +2,6 @@
 #include <random>
 #include <iostream>
 
-
 void randomizeHeights();
 void sort();
 void generateBars();
@@ -12,56 +11,58 @@ bool isSorted();
 
 const int WIDTH = 1000;
 const int HEIGHT = 800;
+int maxHeight = 700;
 
+class Bar
+{
 
-class Bar{
+public:
+    int x;
+    int y;
+    int width;
+    int height;
+    sf::Color color = sf::Color::White;
+    Bar()
+    {
+    }
 
-    public:
-        int x;
-        int y;
-        int width;
-        int height;
-        sf::Color color = sf::Color::White;
-        Bar(){
+    Bar(int x, int y, int width, int height)
+    {
+        this->x = x;
+        this->y = y;
+        this->height = height;
+        this->width = width;
+    }
 
-        }
+    sf::RectangleShape render()
+    {
+        sf::RectangleShape newBar(sf::Vector2f(width, height));
+        newBar.setFillColor(this->color);
+        newBar.setPosition(x, y);
 
-        Bar(int x, int y, int width, int height){
-            this->x = x;
-            this->y = y;
-            this->height = height;
-            this->width = width;
-        }
+        return newBar;
+    }
 
-        sf::RectangleShape render(){
-            sf::RectangleShape newBar(sf::Vector2f(width,height));
-            newBar.setFillColor(this->color);
-            newBar.setPosition(x,y);
-            
-            return newBar;
-        }
+    void setHeight(int height)
+    {
+        this->height = height;
+        this->y = HEIGHT - this->height;
+    }
 
-        void setHeight(int height){
-            this->height = height;
-            this->y = HEIGHT - this->height;
-        }
-
-        int getHeight(){
-            return this->height;
-        }
-
-        
-
+    int getHeight()
+    {
+        return this->height;
+    }
 };
 
-int numberOfBars = 100;
-const int maxBars = 1000;
+int numberOfBars = 50;
+const int maxBars = 500;
 
 Bar bars[maxBars];
 bool sorting = false;
 bool reversed = false;
 
-bool sorted =false;
+bool sorted = false;
 
 sf::Clock timer;
 
@@ -69,15 +70,19 @@ int main()
 {
 
     int currentInd = 0;
+    int endPos = 0;
+
     sf::Image icon;
-    if(!icon.loadFromFile("icon.png")){
+    if (!icon.loadFromFile("icon.png"))
+    {
         std::cout << "Error loading Icon" << std::endl;
     }
 
-    sf::RenderWindow window(sf::VideoMode(WIDTH,HEIGHT), "SFML Sorting Visualizer");
-    window.setIcon(icon.getSize().x,icon.getSize().y,icon.getPixelsPtr());
+    sf::RenderWindow window(sf::VideoMode(WIDTH, HEIGHT), "SFML Sorting Visualizer");
+    window.setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());
     sf::Font font;
-    if(!font.loadFromFile("arial.ttf")){
+    if (!font.loadFromFile("arial.ttf"))
+    {
         std::cout << "Couldn't load font" << std::endl;
     }
 
@@ -91,118 +96,138 @@ int main()
             if (event.type == sf::Event::Closed)
                 window.close();
 
-            if(sf::Keyboard::isKeyPressed(sf::Keyboard::Space)){//initialize sorting algorithm
-            if(!sorting){
-                sorting = true;
-                currentInd = 0;
-            }
-            }else if(sf::Keyboard::isKeyPressed(sf::Keyboard::R)){
-                if(!sorting){
-                randomizeHeights();
-                sorted= false;
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+            { // initialize sorting algorithm
+                if (!sorting && !sorted)
+                {
+                    sorting = true;
+                    currentInd = 0;
                 }
-            }else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left)){
-                reversed = true;
-            }else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Right)){
-                reversed = false;
-            }else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Up)){
-               if(numberOfBars < maxBars && !sorting){
-                numberOfBars += 50;
+            }
+            else if (sf::Keyboard::isKeyPressed(sf::Keyboard::R))
+            {
+                if (!sorting)
+                {
+                    randomizeHeights();
+                    sorted = false;
+                }
+            }else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
+            {
+                if (numberOfBars < maxBars && !sorting)
+                {
+                    numberOfBars += 50;
+                    while (WIDTH % numberOfBars != 0)
+                    {
+                        numberOfBars += 50;
+                    }
+                    sorted = false;
+                    randomizeHeights();
+                }
+            }
+            else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
+            {
+                if (numberOfBars > 50 && !sorting)
+                {
+                    numberOfBars -= 50;
+                    while (WIDTH % numberOfBars != 0)
+                    {
+                        numberOfBars -= 50;
+                    }
+                    sorted = false;
+                    randomizeHeights();
+                }
+            }
+            else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
+                window.close();
+            else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Add)){
+                if(maxHeight < 750 && !sorting){
+                maxHeight += 10;
                 sorted= false;
                 randomizeHeights();
             }
+            }else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Subtract)){
+                if(maxHeight > 100 && !sorting){
+                    maxHeight -= 10;
+                    sorted = false;
+                    randomizeHeights();
             }
-            else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Down)){
-               if(numberOfBars > 50 && !sorting){
-                numberOfBars -= 50;
-                randomizeHeights();
-               }
-            }else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))window.close();
-//add up and down controls for the user to increase the amount of bars by 50
-
+            }
         }
 
         window.clear();
 
-    //title
-    sf::Text instructions;
-    sf::Text directionText;
-    sf::Text direction;
-    sf::Text barCount;
+        // title
+        sf::Text instructions;
+        sf::Text barCount;
+        sf::Text maxHeightText;
 
-    instructions.setFont(font);
-    instructions.setPosition(sf::Vector2f(10,10));
-    instructions.setString("('r' = randomize data, Space = start sorting)");
-    instructions.setCharacterSize(17);
-    instructions.setFillColor(sf::Color::Magenta);
-    window.draw(instructions);
+        instructions.setFont(font);
+        instructions.setPosition(sf::Vector2f(10, 10));
+        instructions.setString("('r' = randomize data, Space = start sorting)");
+        instructions.setCharacterSize(17);
+        instructions.setFillColor(sf::Color::Magenta);
+        window.draw(instructions);
 
-    directionText.setFont(font);
-    directionText.setPosition(sf::Vector2f(10,30));
-    directionText.setString("left arrow = sort from high to low, right arrow = sort from low to high");
-    directionText.setFillColor(sf::Color::Magenta);
-    directionText.setCharacterSize(17);
-    window.draw(directionText);
+        barCount.setFont(font);
+        barCount.setPosition(WIDTH - 200, 10);
+        barCount.setString("Bar Count:" + std::to_string(numberOfBars));
+        barCount.setFillColor(sf::Color::Magenta);
+        barCount.setCharacterSize(30);
+        window.draw(barCount);
 
-    direction.setFont(font);
-    direction.setPosition(200,50);
-    if(reversed){
-        direction.setString("<--");
-    }else
-    direction.setString("-->");
-    direction.setFillColor(sf::Color::Green);
-    direction.setCharacterSize(25);
-    window.draw(direction);
-
-    barCount.setFont(font);
-    barCount.setPosition(WIDTH-200,10);
-    barCount.setString("Bar Count:" + std::to_string(numberOfBars));
-    barCount.setFillColor(sf::Color::Magenta);
-    barCount.setCharacterSize(30);
-    window.draw(barCount);
-
-    for (size_t i = 0; i < numberOfBars; i++)
-    {
-       window.draw(bars[i].render());
-    }
-    
-        int lowInd = currentInd;    
-        if(sorting){
-            
-                bars[currentInd].color = sf::Color::Red;
-            for (size_t i = currentInd + 1; i < numberOfBars; i++)
-            {
-                //bars[i-1].color = sf::Color::White;
-                //bars[i].color = sf::Color::Red;
-                if(!reversed){
-                if(bars[lowInd].getHeight() > bars[i].getHeight()){
-                    lowInd = i;
-                }
-            }else {
-                if(bars[lowInd].getHeight() < bars[i].getHeight()){
-                    lowInd = i;
-                }
-            }
-            }
-            int tempHeight = bars[currentInd].getHeight();
-        bars[currentInd].setHeight(bars[lowInd].getHeight());
-        bars[lowInd].setHeight(tempHeight);
-        currentInd++;
-        // if(isSorted()){
-        //     sorting = false;
-        //     currentInd = 0;
-        //     lowInd = currentInd;
-        // }
-        if(currentInd == numberOfBars+1){
-            currentInd = 0;
-            sorting = false;
-            sorted = true;
-            lowInd = currentInd;
-        }
-        }
+        maxHeightText.setFont(font);
+        maxHeightText.setPosition(WIDTH/2, HEIGHT - maxHeight -50);
+        maxHeightText.setString("Size: " + std::to_string(maxHeight));
+        maxHeightText.setFillColor(sf::Color::Magenta);
+        maxHeightText.setCharacterSize(30);
+        window.draw(maxHeightText);
+        //draw a dotted line for the max height
+        sf::RectangleShape line(sf::Vector2f(WIDTH,1));
+        line.setPosition(0, HEIGHT-(maxHeight + 20));
+        line.setFillColor(sf::Color::Blue);
+        window.draw(line);
         
-        //if(isSorted()){
-        if(sorted){
+        for (size_t i = 0; i < numberOfBars; i++)
+        {
+            window.draw(bars[i].render());
+        }
+
+        // bubble sort algorithm
+        if (sorting)
+        {
+            // reset previous bars colors
+            bars[currentInd].color = sf::Color::White;
+            bars[currentInd - 1].color = sf::Color::White;
+            if (currentInd < numberOfBars - endPos - 1)
+            {
+                bars[currentInd].color = sf::Color::Red;
+                bars[currentInd + 1].color = sf::Color::Red;
+
+                if (bars[currentInd].getHeight() > bars[currentInd + 1].getHeight())
+                {
+                    int temp = bars[currentInd].getHeight();
+                    bars[currentInd].setHeight(bars[currentInd + 1].getHeight());
+                    bars[currentInd + 1].setHeight(temp);
+                }
+                currentInd++;
+            }
+            else
+            {
+                currentInd = 0;
+                endPos++;
+            }
+
+            if (isSorted())
+            {
+                sorting = false;
+                sorted = true;
+                currentInd = 0;
+                endPos = 0;
+            }
+        }
+
+        if (sorted&& bars[numberOfBars-1].color != sf::Color::Green && currentInd < numberOfBars)// 
+        {
             bars[currentInd].color = sf::Color::Green;
             currentInd++;
         }
@@ -213,101 +238,56 @@ int main()
     return 0;
 }
 
-
-bool isSorted(){
-    for (size_t i = 0; i < numberOfBars-1; i++)
-     {
-       if(!reversed){
-        if(bars[i].getHeight() > bars[i+1].getHeight()){
-            return false;
+bool isSorted()
+{
+    for (size_t i = 0; i < numberOfBars - 1; i++)
+    {
+        if (!reversed)
+        {
+            if (bars[i].getHeight() > bars[i + 1].getHeight())
+            {
+                return false;
+            }
         }
-     }else{
-        if(bars[i].getHeight() < bars[i+1].getHeight()){
-            return false;
-        } 
-     }
+        else
+        {
+            if (bars[i].getHeight() < bars[i + 1].getHeight())
+            {
+                return false;
+            }
+        }
     }
     return true;
 }
 
-void generateBars(){
+
+//generate a whole new set of array
+void generateBars()
+{
     for (size_t i = 0; i < numberOfBars; i++)
     {
-        //create an offset of WIDTH - (width * number of bars) then add this to the x
-        int width = (WIDTH/numberOfBars)-1;
-        int height = rand() % HEIGHT + 20;
+        // create an offset of WIDTH - (width * number of bars) then add this to the x
+        int width = (WIDTH / numberOfBars) - 1;
+        int height = rand() % maxHeight + 20;
 
         int offset = WIDTH - (width * numberOfBars);
-        int x = (WIDTH/numberOfBars)*i;
+        int x = (WIDTH / numberOfBars) * i;
         int y = HEIGHT - height;
-        Bar n(x,y,width,height);
+        Bar n(x, y, width, height);
         bars[i] = n;
     }
 }
 
-void randomizeHeights(){
+//randomize the current set of data
+void randomizeHeights()
+{
     for (size_t i = 0; i < numberOfBars; i++)
     {
-        //calculate offset of a block only when the WIDTH % numberofbar != 0
-        //width of bar has to be full integer or it will have black bars on the side of the screen
-
-
-       bars[i].x = (WIDTH/numberOfBars)*i+ 1;
-       bars[i].setHeight(rand() % HEIGHT + 20);
-       bars[i].color = sf::Color::White;
-    bars[i].width = (WIDTH/numberOfBars)-1;
-
-    if(WIDTH % numberOfBars != 0){//non integer bar widths       
-    bars[i].width = (WIDTH/numberOfBars);
-
-    int offset = ((WIDTH - (bars[i].width*numberOfBars))/numberOfBars) + 1;
-    bars[i].x = (WIDTH/numberOfBars)*i + offset;
-    }   
- }
-    
-}
-
-void sort(){
-    //selection sort algoirthm
-    for (size_t i = 0; i < numberOfBars; i++)
-    {
-        int lowestBarInd = i;
-        bars[i].color = sf::Color::Red;
-        for (size_t j = i+1; j < numberOfBars; j++)
-        {
-            bars[j].color = sf::Color::Red;
-
-        if(reversed){
-            if(bars[j].getHeight() > bars[lowestBarInd].getHeight()){
-                lowestBarInd = j;
-            }
-        }else{//sort low to high
-            if(bars[j].getHeight() < bars[lowestBarInd].getHeight()){
-                lowestBarInd = j;
-            }
-        }
-
-            
-            bars[j].color = sf::Color::White;
-        }
-
-        int tempHeight = bars[i].getHeight();
-        bars[i].setHeight(bars[lowestBarInd].getHeight());
-        bars[lowestBarInd].setHeight(tempHeight);
-        
+        bars[i].x = (WIDTH / numberOfBars) * i;
+        bars[i].setHeight(rand() % maxHeight + 20);
         bars[i].color = sf::Color::White;
-        
+        bars[i].width = (WIDTH / numberOfBars)-1;
+        if (numberOfBars == 500)
+            bars[i].width = (WIDTH / numberOfBars);
     }
-    sorting = false;
-    for (size_t i = 0; i < numberOfBars; i++) bars[i].color = sf::Color::Green;
-
-    redCycle();
-}
-
-void redCycle(){
-    for (size_t i = 0; i < numberOfBars; i++)
-    {
-        bars[i].color = sf::Color::Red;
-    }
-    
 }
