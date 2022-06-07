@@ -2,26 +2,17 @@
 #include <random>
 #include <iostream>
 
-void randomizeHeights();
-void sort();
-bool isSorted();
-
 const int WIDTH = 1000;
 const int HEIGHT = 800;
 int maxHeight = 700;
 
 class Bar
 {
-
 public:
-    int x;
-    int y;
-    int width;
-    int height;
+    int x,y,width,height;
     sf::Color color = sf::Color::White;
-    Bar()
-    {
-    }
+
+    Bar(){}
 
     Bar(int x, int y, int width, int height) : x(x), y(y), width(width), height(height)
     { }
@@ -38,13 +29,10 @@ public:
     void setHeight(int height)
     {
         this->height = height;
-        this->y = HEIGHT - this->height;
+        this->y = HEIGHT - height;
     }
 
-    int getHeight() const
-    {
-        return this->height;
-    }
+    int getHeight() const { return this->height;}
 };
 
 int numberOfBars = 50;
@@ -53,6 +41,27 @@ const int maxBars = 500;
 Bar bars[maxBars];
 bool sorting = false;
 bool sorted = false;
+
+bool isSorted()
+{
+    for (size_t i = 0; i < numberOfBars - 1; i++) if (bars[i].getHeight() > bars[i + 1].getHeight())  return false;     
+    return true;
+}
+
+
+//randomize the current set of data
+void randomizeHeights()
+{
+    for (size_t i = 0; i < numberOfBars; i++)
+    {
+        Bar& b = bars[i];
+        b.x = (WIDTH / numberOfBars) * i;
+        b.setHeight(rand() % maxHeight + 20);
+        b.color = sf::Color::White;
+        b.width = (WIDTH / numberOfBars)-1;
+    }
+}
+
 
 int main()
 {
@@ -145,40 +154,39 @@ int main()
                     sorted = false;
                     randomizeHeights();
             }
+            }else if(sf::Keyboard::isKeyPressed(sf::Keyboard::BackSpace)){
+                //cancel sort
+                if(sorting){
+                    sorting = false;
+                    currentInd = 0;
+                    endPos = 0;
+                }
             }
         }
 
         window.clear();
+//maybe replace this with a UI interface of buttons
+        sf::Text instructions("('r' = randomize data, Space = start sorting, up = increase bar amount, \n down = decrease bar amount, + = increase max bar size, - = decrease max bar size) \n backspace = stop sorting"
+        ,font, 17); 
+        sf::Text barCount("Bar Count:" + std::to_string(numberOfBars),font, 30); 
+        sf::Text maxHeightText("Size: " + std::to_string(maxHeight),font, 30);
 
-        // title
-        sf::Text instructions;
-        sf::Text barCount;
-        sf::Text maxHeightText;
-
-        instructions.setFont(font);
         instructions.setPosition(sf::Vector2f(10, 10));
-        instructions.setString("('r' = randomize data, Space = start sorting)");
-        instructions.setCharacterSize(17);
-        instructions.setFillColor(sf::Color::Magenta);
+        instructions.setFillColor(sf::Color::Blue);
         window.draw(instructions);
 
-        barCount.setFont(font);
         barCount.setPosition(WIDTH - 200, 10);
-        barCount.setString("Bar Count:" + std::to_string(numberOfBars));
-        barCount.setFillColor(sf::Color::Magenta);
-        barCount.setCharacterSize(30);
+        barCount.setFillColor(sf::Color::Blue);
         window.draw(barCount);
 
-        maxHeightText.setFont(font);
         maxHeightText.setPosition(WIDTH/2, HEIGHT - maxHeight -50);
-        maxHeightText.setString("Size: " + std::to_string(maxHeight));
-        maxHeightText.setFillColor(sf::Color::Magenta);
-        maxHeightText.setCharacterSize(30);
+        maxHeightText.setFillColor(sf::Color::Red);
         window.draw(maxHeightText);
+
         //draw a dotted line for the max height
         sf::RectangleShape line(sf::Vector2f(WIDTH,1));
         line.setPosition(0, HEIGHT-(maxHeight + 20));
-        line.setFillColor(sf::Color::Blue);
+        line.setFillColor(sf::Color::Red);
         window.draw(line);
         
         for (size_t i = 0; i < numberOfBars; i++)
@@ -230,24 +238,4 @@ int main()
     }
 
     return 0;
-}
-
-bool isSorted()
-{
-    for (size_t i = 0; i < numberOfBars - 1; i++) if (bars[i].getHeight() > bars[i + 1].getHeight())  return false;     
-    return true;
-}
-
-
-//randomize the current set of data
-void randomizeHeights()
-{
-    for (size_t i = 0; i < numberOfBars; i++)
-    {
-        Bar& b = bars[i];
-        b.x = (WIDTH / numberOfBars) * i;
-        b.setHeight(rand() % maxHeight + 20);
-        b.color = sf::Color::White;
-        b.width = (WIDTH / numberOfBars)-1;
-    }
 }
