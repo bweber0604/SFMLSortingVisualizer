@@ -42,6 +42,8 @@ Bar bars[maxBars];
 bool sorting = false;
 bool sorted = false;
 
+int comparisonCount = 0;
+
 bool isSorted()
 {
     for (size_t i = 0; i < numberOfBars - 1; i++) if (bars[i].getHeight() > bars[i + 1].getHeight())  return false;     
@@ -52,6 +54,7 @@ bool isSorted()
 //randomize the current set of data
 void randomizeHeights()
 {
+    comparisonCount = 0;
     for (size_t i = 0; i < numberOfBars; i++)
     {
         Bar& b = bars[i];
@@ -170,6 +173,7 @@ int main()
         ,font, 17); 
         sf::Text barCount("Bar Count:" + std::to_string(numberOfBars),font, 30); 
         sf::Text maxHeightText("Size: " + std::to_string(maxHeight),font, 30);
+        sf::Text compCount("Comparisons: " + std::to_string(comparisonCount),font,30);
 
         instructions.setPosition(sf::Vector2f(10, 10));
         instructions.setFillColor(sf::Color::Blue);
@@ -178,6 +182,10 @@ int main()
         barCount.setPosition(WIDTH - 200, 10);
         barCount.setFillColor(sf::Color::Blue);
         window.draw(barCount);
+
+        compCount.setPosition(WIDTH - 300, 50);
+        compCount.setFillColor(sf::Color::White);
+        window.draw(compCount);
 
         maxHeightText.setPosition(WIDTH/2, HEIGHT - maxHeight -50);
         maxHeightText.setFillColor(sf::Color::Red);
@@ -189,11 +197,8 @@ int main()
         line.setFillColor(sf::Color::Red);
         window.draw(line);
         
-        for (size_t i = 0; i < numberOfBars; i++)
-        {
-            window.draw(bars[i].render());
-        }
-
+        for (size_t i = 0; i < numberOfBars; i++)window.draw(bars[i].render());
+        
         // bubble sort algorithm
         if (sorting)
         {
@@ -204,9 +209,10 @@ int main()
             {
                 bars[currentInd].color = sf::Color::Red;
                 bars[currentInd + 1].color = sf::Color::Red;
-
+                comparisonCount++;
                 if (bars[currentInd].getHeight() > bars[currentInd + 1].getHeight())
                 {
+                    
                     int temp = bars[currentInd].getHeight();
                     bars[currentInd].setHeight(bars[currentInd + 1].getHeight());
                     bars[currentInd + 1].setHeight(temp);
