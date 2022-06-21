@@ -10,3 +10,10 @@ How To use It:
 4.the '+' and '-' keys will raise and lower the size of the bars respectively
 
 this was my first bigger project using c++ and sfml
+
+How To Run:
+
+If you have it open in Visual Studio Code:
+you need to type ./SortingApp.exe and the window should pop up. If you made changes to the code then you should MAKE the project to update the .exe
+
+Otherwise all you need to do is double click the .exe file and it should open
