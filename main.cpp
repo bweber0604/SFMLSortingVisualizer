@@ -80,6 +80,7 @@ int main()
 
     sf::RenderWindow window(sf::VideoMode(WIDTH, HEIGHT), "SFML Sorting Visualizer");
     window.setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());
+    window.setFramerateLimit(120);
     sf::Font font;
     if (!font.loadFromFile("arial.ttf"))
     {

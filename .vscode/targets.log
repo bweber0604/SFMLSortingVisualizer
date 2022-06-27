@@ -8,7 +8,7 @@ make.exe all --print-data-base --no-builtin-variables --no-builtin-rules --quest
 # This program built for i386-pc-mingw32
  
 
-# Make data base, printed on Sun Jun 19 11:48:00 2022
+# Make data base, printed on Mon Jun 27 10:46:48 2022
 
 # Variables
 
@@ -33,7 +33,8 @@ HOMEDRIVE = C:
 # automatic
 ^D = $(patsubst %/,%,$(dir $^))
 # makefile
-CURDIR := c:/Users/benka/Desktop/College Portfolio Projects/SFMLSorting/SFMLSortingVisualizer
+CURDIR := c:/Users/benka/Desktop/College Po 
+rtfolio Projects/SFMLSorting/SFMLSortingVisualizer
 # default
 SHELL := sh.exe
 # environment
@@ -59,7 +60,7 @@ PROGRAMW6432 = C:\Program Files
 # environment
 PROGRAMDATA = C:\ProgramData
 # environment
-VSCODE_IPC_HOOK_EXTHOST = \\.\pipe\vscode-ipc-3453460e-259b-4dfb-b2bd-a5b99ba18a55-sock
+VSCODE_IPC_HOOK_EXTHOST = \\.\pipe\vscode-ipc-f233d9c3-445e-49fd-b5a1-92dd3d73ec63-sock
 # environment
 VSCODE_CWD = C:\Users\benka\AppData\Local\Programs\Microsoft VS Code
 # environment
@@ -72,8 +73,7 @@ CHOCOLATEYLASTPATHUPDATE = 132969465542868706
 PROCESSOR_ARCHITECTURE = x86
 # environment
 USERPROFILE = C:\Users\benka
-# env 
-ironment
+# environment
 CHOCOLATEYINSTALL = C:\ProgramData\chocolatey
 # environment
 ALLUSERSPROFILE = C:\ProgramData
@@ -90,7 +90,7 @@ VPROJECT = D:\Program Files (x86)\Steam\steamapps\common\team fortress 2\tf
 # automatic
 %F = $(notdir $%)
 # environment
-CHROME_CRASHPAD_PIPE_NAME = \\.\pipe\crashpad_20696_GATBIORVWWOXOJJL
+CHROME_CRASHPAD_PIPE_NAME = \\.\pipe\crashpad_15076_SVHEVKXIZMOJNEXC
 # environment
 VSCODE_PIPE_LOGGING = true
 # environment
@@ -110,8 +110,7 @@ USERNAME = Ben
 # environment
 PUBLIC = C:\Users\Public
 # environment
-VSCODE_AMD_ENTRYPOINT = vs/workbench/api/node/extensionHo 
-stProcess
+VSCODE_AMD_ENTRYPOINT = vs/workbench/api/node/extensionHostProcess
 # environment
 VSCODE_CODE_CACHE_PATH = C:\Users\benka\AppData\Roaming\Code\CachedData\30d9c6cd9483b2cc586687151bcbcd635f373630
 # environment
@@ -190,7 +189,8 @@ MAKEFILES :=
 # automatic
 <F = $(notdir $<)
 # environment
-VS160COMCOMNTOOLS = C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\Tools\
+VS160COMCOMNTOOLS = C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\Tool 
+s\
 # environment
 LC_ALL = C
 # automatic
@@ -212,7 +212,7 @@ PROCESSOR_LEVEL = 23
 # environment
 FPS_BROWSER_APP_PROFILE_STRING = Internet Explorer
 # environment
-VSCODE_PID = 20696
+VSCODE_PID = 15076
 # environment
 USERDOMAIN_ROAMINGPROFILE = BENSDESKTOP
 # variable set hash-table stats:
@@ -232,33 +232,31 @@ USERDOMAIN_ROAMINGPROFILE = BENSDESKTOP
 # C:\Users\benka\AppData\Local\Programs\Python\Python38-32\Scripts\ (key C:/Users/benka/AppData/Local/Programs/Python/Python38-32/Scripts/, mtime 1620008861): 58 files, no impossibilities.
 # C:\Windows\System32\WindowsPowerShell\v1.0\ (key C:/Windows/System32/WindowsPowerShell/v1.0/, mtime 1604909985): 30 files, no impossibilities.
 # C:\Windows\System32\Wbem (key C:/Windows/System32/Wbem, mtime 1647212733): 155 files, no impossibilities.
-# . 
- (key c:/Users/benka/Desktop/College Portfolio Projects/SFMLSorting/SFMLSortingVisualizer, mtime 1655432557): 22 files, no impossibilities.
+# . (key c:/Users/benka/Desktop/College Portfolio Projects/SFMLSorting/SFMLSortingVisualizer, mtime 1656117174): 22 files, no impossibilities.
 # C:\Program Files\nodejs\ (key C:/Program Files/nodejs/, mtime 1652472924): 13 files, no impossibilities.
 # C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common (key C:/Program Files (x86)/NVIDIA Corporation/PhysX/Common, mtime 1610038497): 10 files, no impossibilities.
-# C:\Program Files\MySQL\MySQL Server 8.0\bin (key C:/Program Files/MySQL/MySQL Server 8.0/bin, mtime 1653261268): 57 files, no impossibilities.
+# C:\Program Files\MySQL\MySQL Server 8.0\bin (key C:/Program Files/MySQL/MySQL Server 8.0/bin, mt 
+ime 1653261268): 57 files, no impossibilities.
 # C:\ProgramData\chocolatey\bin (key C:/ProgramData/chocolatey/bin, mtime 1652472954): 11 files, no impossibilities.
 # C:\Program Files\dotnet\ (key C:/Program Files/dotnet/, mtime 1640468605): 13 files, no impossibilities.
 # C:\Python310\ (key C:/Python310/, mtime 1652473066): 18 files, no impossibilities.
 # C:\Python310\Scripts\ (key C:/Python310/Scripts/, mtime 1652473066): 5 files, no impossibilities.
-# C:\Program Files\MySQL\MySQL Shell 8.0\bin\ (key C:/Pr 
-ogram Files/MySQL/MySQL Shell 8.0/bin/, mtime 1653261762): 9 files, no impossibilities.
+# C:\Program Files\MySQL\MySQL Shell 8.0\bin\ (key C:/Program Files/MySQL/MySQL Shell 8.0/bin/, mtime 1653261762): 9 files, no impossibilities.
 # C:\Users\benka\Desktop\dart-sass-1.26.10-windows-x64\dart-sass\: could not be stat'd.
 # C:\Windows\System32\OpenSSH\: could not be stat'd.
 # C:\mingw64\bin (key C:/mingw64/bin, mtime 1521554570): 59 files, no impossibilities.
 # C:\Windows (key C:/Windows, mtime 1655153738): 112 files, no impossibilities.
-# C:\Users\benka\AppData\Local\Programs\Microsoft VS Code\bin (key C:/Users/benka/AppData/Local/Programs/Microsoft VS Code/bin, mtime 1655323545): 4 files, no impossibilities.
+# C:\Users\benka\AppData\Local\Programs\Microsoft VS Code\bin (key C:/Users/benka/AppData/Local/Programs/Microsoft V 
+S Code/bin, mtime 1655323545): 4 files, no impossibilities.
 # C:\Program Files\JetBrains\PyCharm Community Edition 2020.3.1\bin (key C:/Program Files/JetBrains/PyCharm Community Edition 2020.3.1/bin, mtime 1608595567): 28 files, no impossibilities.
 # C:\Users\benka\AppData\Roaming\npm (key C:/Users/benka/AppData/Roaming/npm, mtime 1652472919): 2 files, no impossibilities.
 # C:\Users\benka\.dotnet\tools: could not be stat'd.
-# C:\Users\benka\Desktop\dart-sass-1.26.10-windows-x64\dart-sass: could not be stat' 
-d.
+# C:\Users\benka\Desktop\dart-sass-1.26.10-windows-x64\dart-sass: could not be stat'd.
 # C:\Program Files\Git\cmd (key C:/Program Files/Git/cmd, mtime 1598806411): 8 files, no impossibilities.
-# C:\Windows\system32 (key C:/Windows/system32, mtime 1655600065): 3001 files, no impossibilities.
+# C:\Windows\system32 (key C:/Windows/system32, mtime 1655860817): 3001 files, no impossibilities.
 # C:\Program Files\gradle-4.9\bin\ (key C:/Program Files/gradle-4.9/bin/, mtime 1617590773): 4 files, no impossibilities.
 # C:\Users\benka\AppData\Local\GitHubDesktop\bin (key C:/Users/benka/AppData/Local/GitHubDesktop/bin, mtime 1630548320): 4 files, no impossibilities.
-# C:\Users\benka\AppData\Local\M 
-icrosoft\WindowsApps (key C:/Users/benka/AppData/Local/Microsoft/WindowsApps, mtime 1655320663): 15 files, no impossibilities.
+# C:\Users\benka\AppData\Local\Microsoft\WindowsApps (key C:/Users/benka/AppData/Local/Microsoft/WindowsApps, mtime 1656197700): 15 files, no impossibilities.
 # C:\Program Files\gradle-4.9\bin (key C:/Program Files/gradle-4.9/bin, mtime 1617590773): 4 files, no impossibilities.
 # C:\Program Files\NVIDIA Corporation\NVIDIA NvDLISR (key C:/Program Files/NVIDIA Corporation/NVIDIA NvDLISR, mtime 1599778933): 5 files, no impossibilities.
 # C:\Program Files (x86)\GnuWin32\bin (key C:/Program Files (x86)/GnuWin32/bin, mtime 1654134099): 5 files, 
@@ -285,8 +283,7 @@ all: compile link
 #  Implicit rule search has been done.
 #  File does not exist.
 #  File has been updated.
-#  Needs  
-to be updated (-q is set).
+#  Needs to be updated (-q is set).
 # variable set hash-table stats:
 # Load=0/32=0%, Rehash=0, Collisions=0/2=0%
 
@@ -335,7 +332,8 @@ compile:
 # automatic
 # ? := 
 # variable set hash-table stats:
-# Load=8/32=25%, Rehash=0, Collisions=1/10=10%
+# Load=8/32=25%, Rehash=0, Collisions=1/1 
+0=10%
 #  commands to execute (from `makefile', line 4):
 	g++ -Isrc/include -c main.cpp
 	
@@ -353,6 +351,6 @@ compile:
 # strcache size: total = 4096 / max = 4096 / min = 4096 / avg = 4096
 # strcache free: total = 4087 / max = 4087 / min = 4087 / avg = 4087
 
-# Finished Make data base on Sun Jun 19 11:48:00 2022
+# Finished Make data base on Mon Jun 27 10:46:48 2022
 
  
